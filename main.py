@@ -18,9 +18,7 @@ headers = {
     "Content-Type": "application/json"  # or any other content type as per your API
 }
 def search_anime(query):
-    headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-    }
+    
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
     response = requests.get(url, headers=headers)
     print(response.text)
