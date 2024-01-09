@@ -37,23 +37,21 @@ def search_anime(query):
 def handle_search(bot, update):
     # Get the user query from the message
     query = update.text
-    
+    if query.startswith("/"):
+        bot.send_message(chat_id=update.chat.id, text="Just send an anime/manga title & I will search over AniDL.org and send you the post links.")
     # Fetch the content from the URL using the query
-    result = search_anime(query)
-    
-    # Create a list of titles with hyperlinks
-    titles = []
-    count = 0
-    for item in result:
-        title = item["title"]
-        url = item["url"]
-        count+=1
-        hyperlink = f'<a href="{url}"><b>🔗 {title}</b></a>'
-        titles.append(hyperlink)
-    
-    # Join the titles list with line breaks and send the result to the user
-    result_text = "\n\n".join(titles)
-    bot.send_message(chat_id=update.chat.id, text=f"""Found <b>{count}</b> results for "<b>{query}</b>"\n\n{result_text}""", parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
+    else:
+        result = search_anime(query)
+        titles = []
+        count = 0
+        for item in result:
+            title = item["title"]
+            url = item["url"]
+            count+=1
+            hyperlink = f'<a href="{url}"><b>🔗 {title}</b></a>'
+            titles.append(hyperlink)
+        result_text = "\n\n".join(titles)
+        bot.send_message(chat_id=update.chat.id, text=f"""Found <b>{count}</b> results for "<b>{query}</b>"\n\n{result_text}""", parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 # Start the bot
 bot.run()
