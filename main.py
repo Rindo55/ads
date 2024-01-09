@@ -51,7 +51,7 @@ def handle_search(bot, message):
     
     # Join the titles list with line breaks and send the result to the user
     result_text = "\n\n".join(titles)
-    bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode=pyrogram.enums.ParseMode.HTML)
+    bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode=enums.ParseMode.HTML)
 
 # Start the bot
 bot.run()
