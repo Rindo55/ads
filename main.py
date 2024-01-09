@@ -7,6 +7,7 @@ async def search_anime(query):
     session = AsyncHTMLSession()
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
     response = await session.get(url)
+    print(response)
     await response.html.arender()
     result = response.json()
     await session.close()
