@@ -48,12 +48,12 @@ def handle_search(bot, update):
         title = item["title"]
         url = item["url"]
         count+=1
-        hyperlink = f'<a href="{url}"><b>{title}</b></a>'
+        hyperlink = f'<a href="{url}"><b>🔗 {title}</b></a>'
         titles.append(hyperlink)
     
     # Join the titles list with line breaks and send the result to the user
-    result_text = "\n\n🔗 ".join(titles)
-    bot.send_message(chat_id=update.chat.id, text=f"Found {count} results for {query}\n\n{result_text}", parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
+    result_text = "\n\n".join(titles)
+    bot.send_message(chat_id=update.chat.id, text=f"Found <b>{count}</b> results for "<b>{query}</b>"\n\n{result_text}", parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 # Start the bot
 bot.run()
