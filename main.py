@@ -36,7 +36,7 @@ def search_anime(query):
 @bot.on_message(filters.text)
 def handle_search(bot, update):
     # Get the user query from the message
-    query = update.text.split(" ", 1)[1]
+    query = update.text
     
     # Fetch the content from the URL using the query
     result = search_anime(query)
