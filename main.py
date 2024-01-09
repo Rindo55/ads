@@ -33,25 +33,27 @@ def search_anime(query):
         print("Response not OK")
 
 # Define a command handler to handle user search queries
-@bot.on_message(filters.command("search"))
-def handle_search(bot, message):
+@bot.on_message(filters.text)
+def handle_search(bot, update):
     # Get the user query from the message
-    query = message.text.split(" ", 1)[1]
+    query = update.text.split(" ", 1)[1]
     
     # Fetch the content from the URL using the query
     result = search_anime(query)
     
     # Create a list of titles with hyperlinks
     titles = []
+    count = 1
     for item in result:
         title = item["title"]
         url = item["url"]
-        hyperlink = f'<a href="{url}">{title}</a>'
+        count+=1
+        hyperlink = f'Found {count} results for "{query}"\n\n<a href="{url}"><b>{title}</b></a>'
         titles.append(hyperlink)
     
     # Join the titles list with line breaks and send the result to the user
-    result_text = "\n\n".join(titles)
-    bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode=enums.ParseMode.HTML)
+    result_text = "\n\n🔗 ".join(titles)
+    bot.send_message(chat_id=update.chat.id, text=result_text, parse_mode=enums.ParseMode.HTML)
 
 # Start the bot
 bot.run()
