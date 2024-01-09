@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 import requests
-inport base64
+import base64
 
 # Create a new Telegram bot using BotFather and replace the token below
 bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6d", bot_token="6869978658:AAFnveEPtkB5HiBG3nkjwsgyZiLCJhNw0Ec")
