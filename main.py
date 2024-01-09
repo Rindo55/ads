@@ -53,7 +53,7 @@ def handle_search(bot, update):
     
     # Join the titles list with line breaks and send the result to the user
     result_text = "\n\n".join(titles)
-    bot.send_message(chat_id=update.chat.id, text=f"Found <b>{count}</b> results for "<b>{query}</b>"\n\n{result_text}", parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
+    bot.send_message(chat_id=update.chat.id, text=f"""Found <b>{count}</b> results for "<b>{query}</b>"\n\n{result_text}"""", parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 # Start the bot
 bot.run()
