@@ -12,7 +12,7 @@ def search_anime(query):
     }
 
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, proxies=proxies)
     print(response.text)
     if response.ok:
         try:
