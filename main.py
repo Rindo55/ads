@@ -2,8 +2,7 @@ from pyrogram import Client, filters
 from requests_html import HTMLSession
 
 # Create a new Telegram bot using BotFather and replace the token below
-bot = Client("my_bot", bot_token="YOUR_BOT_TOKEN_HERE")
-
+bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6d", bot_token="6869978658:AAFnveEPtkB5HiBG3nkjwsgyZiLCJhNw0Ec")
 # Define a function to fetch content from the given URL and return the result
 def search_anime(query):
     session = HTMLSession()
