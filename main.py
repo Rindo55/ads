@@ -1,17 +1,15 @@
 from pyrogram import Client, filters
-from requests_html import HTMLSession
-import asyncio
+from requests_html import AsyncHTMLSession
 # Create a new Telegram bot using BotFather and replace the token below
 bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6d", bot_token="6869978658:AAFnveEPtkB5HiBG3nkjwsgyZiLCJhNw0Ec")
 # Define a function to fetch content from the given URL and return the result
 async def search_anime(query):
-    session = HTMLSession()
+    session = AsyncHTMLSession()
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
-    response = session.get(url)
+    response = await session.get(url)
     await response.html.arender()
     result = response.json()
-    print(result)
-    session.close()
+    await session.close()
     return result
 
 # Define a command handler to handle user search queries
