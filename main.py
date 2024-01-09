@@ -1,26 +1,34 @@
 from pyrogram import Client, filters
-from requests_html import AsyncHTMLSession
+import requests
+
 # Create a new Telegram bot using BotFather and replace the token below
-bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6d", bot_token="6461840799:AAG5Ve1YeSkR1fEQfsI3plN51_oqCm25G9U")
+bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6d", bot_token="6869978658:AAFnveEPtkB5HiBG3nkjwsgyZiLCJhNw0Ec")
+
 # Define a function to fetch content from the given URL and return the result
-async def search_anime(query):
-    session = AsyncHTMLSession()
+def search_anime(query):
+    headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
-    response = await session.get(url)
-    print(response)
-    await response.html.arender()
-    result = response.json()
-    await session.close()
-    return result
+    response = requests.get(url, headers=headers)
+    print(response.text)
+    if response.ok:
+        try:
+            result = response.json()
+            return result
+        except ValueError:
+            print("Invalid JSON")
+    else:
+        print("Response not OK")
 
 # Define a command handler to handle user search queries
 @bot.on_message(filters.command("search"))
-async def handle_search(bot, message):
+def handle_search(bot, message):
     # Get the user query from the message
     query = message.text.split(" ", 1)[1]
     
     # Fetch the content from the URL using the query
-    result = await search_anime(query)
+    result = search_anime(query)
     
     # Create a list of titles with hyperlinks
     titles = []
@@ -31,8 +39,8 @@ async def handle_search(bot, message):
         titles.append(hyperlink)
     
     # Join the titles list with line breaks and send the result to the user
-    result_text = "\n".join(titles)
-    await bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode="HTML")
+    result_text = "\n\n".join(titles)
+    bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode="HTML")
 
 # Start the bot
 bot.run()
