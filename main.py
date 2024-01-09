@@ -6,9 +6,11 @@ bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6
 
 # Define a function to fetch content from the given URL and return the result
 def search_anime(query):
-    headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    proxies = {
+        'http': 'http://20.112.15.123:8082',
+        'https': 'https://20.112.15.123:443',
     }
+
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
     response = requests.get(url, headers=headers)
     print(response.text)
