@@ -1,5 +1,6 @@
-from pyrogram import Client, filters
-import httpx
+
+from pyrogram import Client, filters, enums
+import requests
 import base64
 
 # Create a new Telegram bot using BotFather and replace the token below
@@ -8,7 +9,8 @@ username = "SchMaister"
 password = "Sqaq DCUW YqR0 lWTe 0vVp iVzt"
 
 # Encode the username and password in base64 format
-credentials_b64 = base64.b64encode(f"{username}:{password}".encode()).decode()
+credentials = f"{username}:{password}"
+credentials_b64 = base64.b64encode(credentials.encode()).decode()
 
 # Set up the request with the Authorization header
 url = "https://your-api-endpoint-url.com"
@@ -16,32 +18,40 @@ headers = {
     "Authorization": f"Basic {credentials_b64}",
     "Content-Type": "application/json"  # or any other content type as per your API
 }
-
-async def search_anime(query):
-    async with httpx.AsyncClient() as client:
-        response = await client.get(f"{url}/wp-json/wp/v2/search", params={"search": query}, headers=headers)
-        if response.status_code == 200:
+def search_anime(query):
+    
+    url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
+    response = requests.get(url, headers=headers)
+    print(response.text)
+    if response.ok:
+        try:
             result = response.json()
             return result
-        else:
-            print(f"Error: {response.status_code}")
-            return None
+        except ValueError:
+            print("Invalid JSON")
+    else:
+        print("Response not OK")
 
 # Define a command handler to handle user search queries
 @bot.on_message(filters.command("search"))
-async def handle_search(bot, message):
+def handle_search(bot, message):
     # Get the user query from the message
     query = message.text.split(" ", 1)[1]
     
     # Fetch the content from the URL using the query
-    result = await search_anime(query)
+    result = search_anime(query)
     
     # Create a list of titles with hyperlinks
-    titles = [f'<a href="{item["url"]}">{item["title"]}</a>' for item in result]
+    titles = []
+    for item in result:
+        title = item["title"]
+        url = item["url"]
+        hyperlink = f'<a href="{url}">{title}</a>'
+        titles.append(hyperlink)
     
     # Join the titles list with line breaks and send the result to the user
     result_text = "\n\n".join(titles)
-    await bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode="HTML")
+    bot.send_message(chat_id=message.chat.id, text=result_text, parse_mode=pyrogram.enums.ParseMode.HTML)
 
 # Start the bot
 bot.run()
