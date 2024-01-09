@@ -8,6 +8,7 @@ bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6
 def search_anime(query):
     url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
     response = requests.get(url)
+    print(response.text)
     if response.ok:
         try:
             result = response.json()
