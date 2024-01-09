@@ -1,13 +1,22 @@
 from pyrogram import Client, filters
 import requests
+inport base64
 
 # Create a new Telegram bot using BotFather and replace the token below
 bot = Client("my_bot", api_id=3845818, api_hash="95937bcf6bc0938f263fc7ad96959c6d", bot_token="6869978658:AAFnveEPtkB5HiBG3nkjwsgyZiLCJhNw0Ec")
 username = "SchMaister"
 password = "Sqaq DCUW YqR0 lWTe 0vVp iVzt"
-# Define a function to fetch content from the given URL and return the result
-session = requests.Session()
-session.auth = (username, password)
+
+# Encode the username and password in base64 format
+credentials = f"{username}:{password}"
+credentials_b64 = base64.b64encode(credentials.encode()).decode()
+
+# Set up the request with the Authorization header
+url = "https://your-api-endpoint-url.com"
+headers = {
+    "Authorization": f"Basic {credentials_b64}",
+    "Content-Type": "application/json"  # or any other content type as per your API
+}
 def search_anime(query):
     headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
