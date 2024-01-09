@@ -10,6 +10,7 @@ def search_anime(query):
     response = session.get(url)
     response.html.render()
     result = response.json()
+    print(result)
     session.close()
     return result
 
