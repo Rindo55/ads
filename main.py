@@ -20,7 +20,7 @@ headers = {
 }
 def search_anime(query):
     
-    url = f"https://anidl.org/wp-json/wp/v2/search?search={query}"
+    url = f"https://anidl.org/wp-json/wp/v2/search?search={query}&per_page=50"
     response = requests.get(url, headers=headers)
     print(response.text)
     if response.ok:
